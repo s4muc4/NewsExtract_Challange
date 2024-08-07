@@ -9,8 +9,9 @@ def news_extract():
         phrase = item.payload["phrase"]
         topic = item.payload["topic"]
         history = item.payload["history"]
-
+        print("#######################################################################################################################")
         print("Searching phrase ("+phrase+") in topic ("+topic+") since ("+str(history)+") months")
+        print("#######################################################################################################################")
         extractor = LatimesExtractor()
         extractor.open_specific_browser()
         news_count = extractor.search_by_phrase(phrase)

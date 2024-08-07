@@ -35,22 +35,41 @@ class LatimesExtractor:
             news_count = self.browser.get_text("//div[@class='search-results-module-no-results']")
         finally:
             print(news_count)
-        
         return int(news_count)
     
     def get_page_news(self):
-        news:List[WebElement] = self.browser.get_webelements("//*[@class='search-results-module-results-menu']") 
-
-
+        news:List[WebElement] = self.browser.get_webelements("//ul[@class='search-results-module-results-menu']/li/ps-promo") 
+        
         for new in news:
             # Extract promo title
-            title = new.find_element(
-                    By.CLASS_NAME, "promo-title"
-                ).text
-            #title_element =  new.find_element() ('.//div[@class="promo-content"]/div[@class="promo-title-container"]/h3[@class="promo-title"]/a')
-            #title = title_element.text
-            print(title)
+            title = new.find_element(By.CLASS_NAME, "promo-title").text
+            date = new.find_element(By.CLASS_NAME, "promo-timestamp").text
+            description = new.find_element(By.CLASS_NAME, "promo-description").text
+            picture_link = new.find_element(By.CLASS_NAME, "image").get_attribute("srcset")
+            picture_file_name = self.get_image_file_name(picture_link)
+            href = new.find_element(By.TAG_NAME, "a").get_attribute("href")
+            print("-----------------------------------------------------------------------------------------------------------------------")
+            print("Title: "+title)
+            print("Post Date: "+date)
+            print("Description: "+description)
+            print("Picture file name: "+picture_file_name)
+            print("URL of new: "+href)
+            print("-----------------------------------------------------------------------------------------------------------------------")
 
+    def get_image_file_name(self, srcset):
+        evidences = srcset.split('%')
+        filename = "#"
+        for evidence in evidences:
+            if evidence.__contains__(".jpg") or evidence.__contains__(".jpeg") or evidence.__contains__(".png") or evidence.__contains__(".webp"):
+                name = str(evidence).strip(" ")
+                positions = name.split(" ")
+                for position in positions:
+                    if str(position).endswith(".jpg") or str(position).endswith(".jpeg") or str(position).endswith(".png") or str(position).endswith(".webp"):
+                        filename = position
+                        break
+        if filename == "#":
+            filename = "Filename not found because is without extension"
+        return filename
         
         
 
