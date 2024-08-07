@@ -2,7 +2,7 @@
     {
         "payload": {
             "phrase": "Olympics",
-            "topic": "2024 Paris Olympics",
+            "sort_by": "Newest",
             "history":1
         },
         "files": { }
@@ -10,7 +10,7 @@
     {
         "payload": {
             "phrase": "Artificial Intelligence",
-            "topic": "Business",
+            "sort_by": "Famous",
             "history":2
         },
         "files": { }
@@ -18,7 +18,7 @@
     {
         "payload": {
             "phrase": "Car",
-            "topic": "California",
+            "sort_by": "Oldest",
             "history":3
         },
         "files": { }
