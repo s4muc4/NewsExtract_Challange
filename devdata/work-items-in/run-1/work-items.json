@@ -1,0 +1,26 @@
+[
+    {
+        "payload": {
+            "phrase": "Olympics",
+            "topic": "2024 Paris Olympics",
+            "history":1
+        },
+        "files": { }
+    },
+    {
+        "payload": {
+            "phrase": "Artificial Intelligence",
+            "topic": "Business",
+            "history":2
+        },
+        "files": { }
+    },
+    {
+        "payload": {
+            "phrase": "Car",
+            "topic": "California",
+            "history":3
+        },
+        "files": { }
+    }
+]

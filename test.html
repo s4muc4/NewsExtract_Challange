@@ -1,0 +1,71 @@
+Using RPA.Browser.Selenium, how can I extract all picture, promo-category, promo-title, promo-description and promo-timestamp of this html?
+
+<ul class="search-results-module-results-menu">
+    <li> <ps-promo class="promo promo-position-large promo-medium" data-module-id="00000191-29e8-de7f-adf1-f9ffe2be0000"
+            data-promotable-id="00000191-1b68-dfe8-afd3-5f7e8cc30002" data-content-type="storyStack" data-show-img="">
+            <div class="promo-wrapper">
+                <div class="promo-media"><a class="link promo-placeholder"
+                        href="https://www.latimes.com/sports/olympics/story/2024-08-06/paris-olympics-tv-schedule-wednesday-listings-track"
+                        aria-label="Paris Olympics TV schedule: Wednesday’s listings">
+                        <picture>
+                            <source type="image/webp"
+                                srcset="https://ca-times.brightspotcdn.com/dims4/default/c7f65fd/2147483647/strip/true/crop/1080x720+0+0/resize/110x73!/format/webp/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb1%2Fa7%2Ff58eaff244c89520e38e976ac0a0%2Fsp-oly-what-to-watch-anim-gabbythomas.gif 110w,https://ca-times.brightspotcdn.com/dims4/default/4c59570/2147483647/strip/true/crop/1080x720+0+0/resize/180x120!/format/webp/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb1%2Fa7%2Ff58eaff244c89520e38e976ac0a0%2Fsp-oly-what-to-watch-anim-gabbythomas.gif 180w,https://ca-times.brightspotcdn.com/dims4/default/b4a6116/2147483647/strip/true/crop/1080x720+0+0/resize/320x213!/format/webp/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb1%2Fa7%2Ff58eaff244c89520e38e976ac0a0%2Fsp-oly-what-to-watch-anim-gabbythomas.gif 320w,https://ca-times.brightspotcdn.com/dims4/default/924a8a3/2147483647/strip/true/crop/1080x720+0+0/resize/568x379!/format/webp/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb1%2Fa7%2Ff58eaff244c89520e38e976ac0a0%2Fsp-oly-what-to-watch-anim-gabbythomas.gif 568w,https://ca-times.brightspotcdn.com/dims4/default/3bd6c56/2147483647/strip/true/crop/1080x720+0+0/resize/768x512!/format/webp/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb1%2Fa7%2Ff58eaff244c89520e38e976ac0a0%2Fsp-oly-what-to-watch-anim-gabbythomas.gif 768w,https://ca-times.brightspotcdn.com/dims4/default/4cdb896/2147483647/strip/true/crop/1080x720+0+0/resize/840x560!/format/webp/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb1%2Fa7%2Ff58eaff244c89520e38e976ac0a0%2Fsp-oly-what-to-watch-anim-gabbythomas.gif 840w"
+                                sizes="(max-width: 768px) 180px, 320px"> <img class="image"
+                                alt="U.S. sprinter Gabby Thomas."
+                                srcset="https://ca-times.brightspotcdn.com/dims4/default/b55125f/2147483647/strip/true/crop/1080x720+0+0/resize/110x73!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb1%2Fa7%2Ff58eaff244c89520e38e976ac0a0%2Fsp-oly-what-to-watch-anim-gabbythomas.gif 110w,https://ca-times.brightspotcdn.com/dims4/default/84bd290/2147483647/strip/true/crop/1080x720+0+0/resize/180x120!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb1%2Fa7%2Ff58eaff244c89520e38e976ac0a0%2Fsp-oly-what-to-watch-anim-gabbythomas.gif 180w,https://ca-times.brightspotcdn.com/dims4/default/d7c4540/2147483647/strip/true/crop/1080x720+0+0/resize/320x213!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb1%2Fa7%2Ff58eaff244c89520e38e976ac0a0%2Fsp-oly-what-to-watch-anim-gabbythomas.gif 320w,https://ca-times.brightspotcdn.com/dims4/default/ce212fc/2147483647/strip/true/crop/1080x720+0+0/resize/568x379!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb1%2Fa7%2Ff58eaff244c89520e38e976ac0a0%2Fsp-oly-what-to-watch-anim-gabbythomas.gif 568w,https://ca-times.brightspotcdn.com/dims4/default/03bb6b4/2147483647/strip/true/crop/1080x720+0+0/resize/768x512!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb1%2Fa7%2Ff58eaff244c89520e38e976ac0a0%2Fsp-oly-what-to-watch-anim-gabbythomas.gif 768w,https://ca-times.brightspotcdn.com/dims4/default/fcde361/2147483647/strip/true/crop/1080x720+0+0/resize/840x560!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb1%2Fa7%2Ff58eaff244c89520e38e976ac0a0%2Fsp-oly-what-to-watch-anim-gabbythomas.gif 840w"
+                                sizes="(max-width: 768px) 180px, 320px" width="840" height="560"
+                                src="https://ca-times.brightspotcdn.com/dims4/default/fcde361/2147483647/strip/true/crop/1080x720+0+0/resize/840x560!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb1%2Fa7%2Ff58eaff244c89520e38e976ac0a0%2Fsp-oly-what-to-watch-anim-gabbythomas.gif"
+                                decoding="async" loading="lazy">
+                        </picture>
+                    </a></div>
+                <div class="promo-content">
+                    <div class="promo-title-container">
+                        <p class="promo-category"> <a class="link" href="https://www.latimes.com/sports/olympics">2024
+                                Paris Olympics</a> </p>
+                        <h3 class="promo-title"> <a class="link"
+                                href="https://www.latimes.com/sports/olympics/story/2024-08-06/paris-olympics-tv-schedule-wednesday-listings-track">Paris
+                                Olympics TV schedule: Wednesday’s listings</a> </h3>
+                    </div>
+                    <p class="promo-description">Track and field, beach volleyball quarterfinals and men’s soccer
+                        semifinals are among the 2024 Paris Olympics events on television Wednesday.</p>
+                    <p class="promo-timestamp" data-shouldshowtime="false" data-timestamp="1722936657826">Aug. 6, 2024
+                    </p>
+                </div>
+            </div>
+        </ps-promo> </li>
+    <li> <ps-promo class="promo promo-position-large promo-medium" data-module-id="00000191-29e8-de7f-adf1-f9ffe2be0001"
+            data-promotable-id="00000191-1663-dfe8-afd3-5677c27d0000" data-content-type="storyStack" data-show-img="">
+            <div class="promo-wrapper">
+                <div class="promo-media"><a class="link promo-placeholder"
+                        href="https://www.latimes.com/sports/olympics/story/2024-08-05/2024-paris-olympics-tv-schedule-tuesday-listings"
+                        aria-label="Paris Olympics TV schedule: Tuesday’s listings">
+                        <picture>
+                            <source type="image/webp"
+                                srcset="https://ca-times.brightspotcdn.com/dims4/default/a2dc02a/2147483647/strip/true/crop/1080x720+0+0/resize/110x73!/format/webp/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb5%2Fd0%2Faac3042b43b3b32061158343f127%2Fsp-oly-what-to-watch-anim-eiffel-2.jpg 110w,https://ca-times.brightspotcdn.com/dims4/default/1c4f974/2147483647/strip/true/crop/1080x720+0+0/resize/180x120!/format/webp/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb5%2Fd0%2Faac3042b43b3b32061158343f127%2Fsp-oly-what-to-watch-anim-eiffel-2.jpg 180w,https://ca-times.brightspotcdn.com/dims4/default/35cdf21/2147483647/strip/true/crop/1080x720+0+0/resize/320x213!/format/webp/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb5%2Fd0%2Faac3042b43b3b32061158343f127%2Fsp-oly-what-to-watch-anim-eiffel-2.jpg 320w,https://ca-times.brightspotcdn.com/dims4/default/7f3e66b/2147483647/strip/true/crop/1080x720+0+0/resize/568x379!/format/webp/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb5%2Fd0%2Faac3042b43b3b32061158343f127%2Fsp-oly-what-to-watch-anim-eiffel-2.jpg 568w,https://ca-times.brightspotcdn.com/dims4/default/c172574/2147483647/strip/true/crop/1080x720+0+0/resize/768x512!/format/webp/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb5%2Fd0%2Faac3042b43b3b32061158343f127%2Fsp-oly-what-to-watch-anim-eiffel-2.jpg 768w,https://ca-times.brightspotcdn.com/dims4/default/8c0c00f/2147483647/strip/true/crop/1080x720+0+0/resize/840x560!/format/webp/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb5%2Fd0%2Faac3042b43b3b32061158343f127%2Fsp-oly-what-to-watch-anim-eiffel-2.jpg 840w"
+                                sizes="(max-width: 768px) 180px, 320px"> <img class="image"
+                                alt="The Eiffel Tower with circles in Olympics colors rotating around it"
+                                srcset="https://ca-times.brightspotcdn.com/dims4/default/9406c91/2147483647/strip/true/crop/1080x720+0+0/resize/110x73!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb5%2Fd0%2Faac3042b43b3b32061158343f127%2Fsp-oly-what-to-watch-anim-eiffel-2.jpg 110w,https://ca-times.brightspotcdn.com/dims4/default/62a32c8/2147483647/strip/true/crop/1080x720+0+0/resize/180x120!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb5%2Fd0%2Faac3042b43b3b32061158343f127%2Fsp-oly-what-to-watch-anim-eiffel-2.jpg 180w,https://ca-times.brightspotcdn.com/dims4/default/74e838f/2147483647/strip/true/crop/1080x720+0+0/resize/320x213!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb5%2Fd0%2Faac3042b43b3b32061158343f127%2Fsp-oly-what-to-watch-anim-eiffel-2.jpg 320w,https://ca-times.brightspotcdn.com/dims4/default/c4b9ab8/2147483647/strip/true/crop/1080x720+0+0/resize/568x379!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb5%2Fd0%2Faac3042b43b3b32061158343f127%2Fsp-oly-what-to-watch-anim-eiffel-2.jpg 568w,https://ca-times.brightspotcdn.com/dims4/default/b37d9c3/2147483647/strip/true/crop/1080x720+0+0/resize/768x512!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb5%2Fd0%2Faac3042b43b3b32061158343f127%2Fsp-oly-what-to-watch-anim-eiffel-2.jpg 768w,https://ca-times.brightspotcdn.com/dims4/default/0fb806d/2147483647/strip/true/crop/1080x720+0+0/resize/840x560!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb5%2Fd0%2Faac3042b43b3b32061158343f127%2Fsp-oly-what-to-watch-anim-eiffel-2.jpg 840w"
+                                sizes="(max-width: 768px) 180px, 320px" width="840" height="560"
+                                src="https://ca-times.brightspotcdn.com/dims4/default/0fb806d/2147483647/strip/true/crop/1080x720+0+0/resize/840x560!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fb5%2Fd0%2Faac3042b43b3b32061158343f127%2Fsp-oly-what-to-watch-anim-eiffel-2.jpg"
+                                decoding="async" loading="lazy">
+                        </picture>
+                    </a></div>
+                <div class="promo-content">
+                    <div class="promo-title-container">
+                        <p class="promo-category"> <a class="link" href="https://www.latimes.com/sports/olympics">2024
+                                Paris Olympics</a> </p>
+                        <h3 class="promo-title"> <a class="link"
+                                href="https://www.latimes.com/sports/olympics/story/2024-08-05/2024-paris-olympics-tv-schedule-tuesday-listings">Paris
+                                Olympics TV schedule: Tuesday’s listings</a> </h3>
+                    </div>
+                    <p class="promo-description">Track and field, beach volleyball quarterfinals and women’s soccer
+                        semifinals are among the 2024 Paris Olympics events on television Tuesday.</p>
+                    <p class="promo-timestamp" data-shouldshowtime="false" data-timestamp="1722930017517">Aug. 6, 2024
+                    </p>
+                </div>
+            </div>
+        </ps-promo> 
+    </li>
+</ul>
+
+
