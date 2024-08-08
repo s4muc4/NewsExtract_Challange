@@ -85,8 +85,9 @@ class LatimesExtractor:
                         print("URL of new: "+href)
                         print("-----------------------------------------------------------------------------------------------------------------------")
                         count_phrases_title, count_phrases_description = self.count_phrases(title, description) 
+                        money_appears = self.extract_money_amounts(title, description)
                         self.sheet.create_worksheet(self.phrase)
-                        self.sheet.add_row_in_worksheet(self.phrase, [title, topic, date, description, picture_file_name, count_phrases_title, count_phrases_description, "Null", href])
+                        self.sheet.add_row_in_worksheet(self.phrase, [title, topic, date, description, picture_file_name, count_phrases_title, count_phrases_description, str(money_appears), href])
                     except Exception as err:
                         print("Error to get new from " + title)
                 else:
@@ -139,6 +140,21 @@ class LatimesExtractor:
         count_in_title = title.lower().count(self.phrase.lower())
         count_in_description = description.lower().count(self.phrase.lower())
         return count_in_title, count_in_description
+
+    def extract_money_amounts(self, title, description):
+        text = title + description
+        patterns = [
+            r'\$\d+(?:,\d{3})*(?:\.\d{2})?', # Matches $ amounts, e.g., $11.1, $111,111.11
+            r'\d+(?:,\d{3})*\s*dollars', # Matches amounts in dollars, e.g., 11 dollars
+            r'\d+(?:,\d{3})*\s*USD' # Matches amounts in USD, e.g., 11 USD
+        ]
+        money_amounts = []
+        for pattern in patterns:
+            matches = re.findall(pattern, text, re.IGNORECASE)
+            money_amounts.extend(matches)
+        if len(money_amounts)>=1:
+            return True
+        return False
 
     
     
