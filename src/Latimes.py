@@ -4,7 +4,10 @@ from RPA.Tables import Tables
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
+import requests #only to download picture from a url
+
 import re
+import os
 from typing import List
 from datetime import datetime
 
@@ -68,6 +71,10 @@ class LatimesExtractor:
                         description = new.find_element(By.CLASS_NAME, "promo-description").text
                         picture_link = new.find_element(By.CLASS_NAME, "image").get_attribute("srcset")
                         picture_file_name = self.get_image_file_name(picture_link)
+                        if "not found" in picture_file_name:
+                            picture_path = "Erro to download - File Without Extension"
+                        else:
+                            picture_path = self.download_news_picture(picture_link, picture_file_name)
                         href = new.find_element(By.TAG_NAME, "a").get_attribute("href")
                         if not self.verify_date(date) == True:
                             print("There are no more messages in the established retroactive months")
@@ -87,7 +94,7 @@ class LatimesExtractor:
                         count_phrases_title, count_phrases_description = self.count_phrases(title, description) 
                         money_appears = self.extract_money_amounts(title, description)
                         self.sheet.create_worksheet(self.phrase)
-                        self.sheet.add_row_in_worksheet(self.phrase, [title, topic, date, description, picture_file_name, count_phrases_title, count_phrases_description, str(money_appears), href])
+                        self.sheet.add_row_in_worksheet(self.phrase, [title, topic, date, description, picture_path, count_phrases_title, count_phrases_description, str(money_appears), href])
                     except Exception as err:
                         print("Error to get new from " + title)
                 else:
@@ -155,12 +162,21 @@ class LatimesExtractor:
         if len(money_amounts)>=1:
             return True
         return False
+    
+    def download_news_picture(self, src, picture_name):
+        directory_path = "output/pictures"
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
+        path = f"{directory_path}/{picture_name}"
+        links = src.split(",")
+        link = links[len(links)-1][:-5]
+        print(link)
+        response = requests.get(link)
+        if response.status_code == 200:
+            with open(path, 'wb') as file:
+                file.write(response.content)
+            print(f"Image downloaded and saved as '{path}'.")
+        else:
+            print("Failed to retrieve the image. Status code:", response.status_code)
 
-    
-    
-    
-        
-
-    
-
-    
+        return path
