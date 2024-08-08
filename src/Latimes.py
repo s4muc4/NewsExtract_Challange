@@ -6,6 +6,11 @@ from selenium.webdriver.remote.webelement import WebElement
 
 import re
 from typing import List
+from datetime import datetime
+
+from src.Sheets import Sheets_Manipulation
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 class LatimesExtractor:
     def __init__(self,count_news: int, phrase, sort_by, date) -> None:
@@ -13,9 +18,13 @@ class LatimesExtractor:
         self.browser = Selenium()
         self.table = Tables()
         self.count_news = count_news
-        self.date = date
+        self.date = int(date)
         self.phrase = phrase
         self.sort_by = sort_by
+        self.sheet = Sheets_Manipulation()
+        self.sheet.create_file()
+        self.sheet.delete_worksheet_if_exists(self.phrase)
+
     def open_specific_browser(self):
         self.browser.open_browser(url="https://www.latimes.com/", browser="firefox")
 
@@ -47,7 +56,8 @@ class LatimesExtractor:
     def get_page_news(self):
         count_news_found = 0
         finished = False
-        while finished == False or count_news_found < self.count_news:
+        without_data = False
+        while (finished == False or count_news_found < self.count_news) and without_data==False:
             news:List[WebElement] = self.browser.get_webelements("//ul[@class='search-results-module-results-menu']/li/ps-promo") 
             for new in news:
                 if count_news_found < self.count_news: 
@@ -59,6 +69,11 @@ class LatimesExtractor:
                         picture_link = new.find_element(By.CLASS_NAME, "image").get_attribute("srcset")
                         picture_file_name = self.get_image_file_name(picture_link)
                         href = new.find_element(By.TAG_NAME, "a").get_attribute("href")
+                        if not self.verify_date(date) == True:
+                            print("There are no more messages in the established retroactive months")
+                            without_data = True
+                            finished = True
+                            break
                         count_news_found += 1
                         print("-----------------------------------------------------------------------------------------------------------------------")
                         print("New number: " + str(count_news_found))
@@ -69,7 +84,9 @@ class LatimesExtractor:
                         print("Picture file name: "+picture_file_name)
                         print("URL of new: "+href)
                         print("-----------------------------------------------------------------------------------------------------------------------")
-                        """Send data to excel file"""
+                        count_phrases_title, count_phrases_description = self.count_phrases(title, description) 
+                        self.sheet.create_worksheet(self.phrase)
+                        self.sheet.add_row_in_worksheet(self.phrase, [title, topic, date, description, picture_file_name, count_phrases_title, count_phrases_description, "Null", href])
                     except Exception as err:
                         print("Error to get new from " + title)
                 else:
@@ -79,7 +96,6 @@ class LatimesExtractor:
                     self.browser.click_element_when_clickable("//div[@class='search-results-module-next-page']",10)
                 except TimeoutError:
                     finished = True
-
 
     def get_image_file_name(self, srcset):
         evidences = srcset.split('%')
@@ -96,9 +112,33 @@ class LatimesExtractor:
             filename = "Filename not found because is without extension"
         return filename
         
+    def verify_date(self, date_extracted):
+        months = self.date
+        retroactive_months = []
+        retroactive_years = []
+        if months >= 1:
+            months-=1
+        while True:
+            last_month = datetime.now() - relativedelta(months=months)
+            month_name = last_month.strftime("%b")
+            year = last_month.year
+            retroactive_months.append(month_name)
+            retroactive_years.append(year)
+            months -=1
+            if months < 0:
+                break
+        if "ago" in date_extracted:
+            return True
+        else:
+            for index, month in enumerate(retroactive_months):
+                if str(month) in str(date_extracted) and str(retroactive_years[index]) in str(date_extracted):
+                    return True
+            return False
 
-        
-    
+    def count_phrases(self, title, description):
+        count_in_title = title.lower().count(self.phrase.lower())
+        count_in_description = description.lower().count(self.phrase.lower())
+        return count_in_title, count_in_description
 
     
     

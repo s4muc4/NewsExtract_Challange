@@ -1,10 +1,7 @@
-from src.Sheets import Sheets_Manipulation
+from src.Latimes import LatimesExtractor
 
-title = "result"
-sheet_name = "Olympics"
+extractor = LatimesExtractor(count_news=15, phrase="Sport", sort_by="sort_by", date="9")
 
-sheet = Sheets_Manipulation(title=title)
-
-sheet.create_file()
-sheet.create_worksheet(sheet_name)
-sheet.add_row_in_worksheet(sheet_name, ["taoo", "teste2", "teste3", "teste4", "teste5", "teste6"])
+titles, descriptions = extractor.count_phrases("The Sports Report: Simone Biles shows why she’s the best sport", "Simone Biles wins the Olympics trial all-around women’s gymnastics titles and will lead the U.S. team in the Paris Olympics. ")
+print(titles)
+print(descriptions)
