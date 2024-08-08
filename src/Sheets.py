@@ -30,7 +30,7 @@ class Sheets_Manipulation():
 
         
 
-    def add_line_in_worksheet(self,sheet,row):
+    def add_row_in_worksheet(self,sheet,row):
         self.file.open_workbook(self.path)
         columns = row
         self.file.append_rows_to_worksheet(name=sheet, content=[columns])
