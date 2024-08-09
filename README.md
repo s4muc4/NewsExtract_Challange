@@ -84,3 +84,26 @@ The main steps:
 7 - Follow steps 4-6 for all news that falls within the required time period
 
  
+## Requirements
+
+All steps working ✅
+
+Using PEP8 compliant ✅
+
+Using OOP ✅
+
+Using explicit waits ✅
+
+Using logging ✅
+
+Using string formatting ✅
+
+Do not using APIs or Web Requests ✅
+
+Using pure python, and not robot framework ✅
+
+Using rpaframework ✅
+
+Using Selenium ✅
+
+Repo integrated with Robocloud ✅
