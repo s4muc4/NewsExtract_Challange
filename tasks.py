@@ -36,4 +36,5 @@ def news_extract():
                 code="NEWS_NOT_FOUND",
                 message=f"Zero results to phrase {phrase}",
             )
+
         
