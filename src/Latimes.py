@@ -102,7 +102,7 @@ class LatimesExtractor:
                             #picture_src = new.find_element(By.CLASS_NAME, "image")
                             picture_file_name = self.get_image_file_name(picture_link)
                             if "not found" in picture_file_name:
-                                picture_path = "Erro to download - File Without Extension"
+                                picture_path = "Error to download - File Without Extension"
                             else:
                                 picture_path = self.download_news_picture(picture_link, picture_file_name)
                             href = new.find_element(By.TAG_NAME, "a").get_attribute("href")

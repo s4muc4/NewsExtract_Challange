@@ -27,7 +27,7 @@ class Sheets_Manipulation():
         if not self.file.worksheet_exists(sheet):
             print("criando worksheet " + sheet)
             self.file.create_worksheet(sheet)
-            columns = ["Title", "Topic", "Date", "Description", "Picture_Source", "Title_Words", "Description_Words", "Money_Contains", "URL","Polarity(-1.0 to 1.0)","Subjectivity(0.0 to 1.0)"]
+            columns = ["Title", "Topic", "Date", "Description", "Picture_Source", "Title_Words", "Description_Words", "Money_Contains", "News_URL","Polarity(-1.0 to 1.0)","Subjectivity(0.0 to 1.0)"]
             self.file.append_rows_to_worksheet(name=sheet, content=[columns])
         self.file.save_workbook(path=self.path)
 
