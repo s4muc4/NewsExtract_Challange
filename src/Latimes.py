@@ -92,6 +92,7 @@ class LatimesExtractor:
                     if count_news_found < self.count_news: 
                         try:
                             self.sheet.create_worksheet(self.phrase)
+                            self.sheet.delete_worksheet_if_exists("Sheet1")
                             title = new.find_element(By.CLASS_NAME, "promo-title").text
                             topic = new.find_element(By.XPATH, "//p[@class='promo-category']/a").text
                             date = new.find_element(By.CLASS_NAME, "promo-timestamp").text
@@ -108,6 +109,7 @@ class LatimesExtractor:
                                 picture_path = self.download_news_picture(picture_link, picture_file_name)
                             href = new.find_element(By.TAG_NAME, "a").get_attribute("href")
                             if not self.verify_date(date) == True and count_news_found == 0:
+                                self.sheet.delete_worksheet_if_exists("Sheet1")
                                 msg = "There are no more messages in the established retroactive months"
                                 self.log.log_info(msg)
                                 return False, str(msg)
