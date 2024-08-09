@@ -1,7 +1,7 @@
 from RPA.Browser.Selenium import Selenium
-from selenium.webdriver import FirefoxOptions
 from RPA.Tables import Tables
 
+from selenium.webdriver import FirefoxOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
@@ -10,13 +10,10 @@ import re
 import os
 from typing import List
 from datetime import datetime
-
 from src.Sheets import Sheets_Manipulation
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-
 from src.Logging import Log_Message
-
 
 class LatimesExtractor:
     def __init__(self,count_news: int, phrase, sort_by, date) -> None:

@@ -1,7 +1,7 @@
 
 from RPA.Excel.Files import Files
-import os
 from datetime import datetime
+import os
 
 class Sheets_Manipulation():
     def __init__(self) -> None:
@@ -11,7 +11,6 @@ class Sheets_Manipulation():
         self.file = Files()
         self.title = title
         self.path = f"output/news_{title}.xlsx"
-
 
     def create_file(self):
         if not os.path.exists(self.path):

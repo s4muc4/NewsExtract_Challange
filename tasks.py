@@ -2,6 +2,7 @@ from robocorp.tasks import task
 from robocorp import workitems
 from src.Latimes import LatimesExtractor
 from src.Logging import Log_Message
+from src.System import SystemOperations
 
 @task
 def news_extract():
@@ -36,5 +37,6 @@ def news_extract():
                 code="NEWS_NOT_FOUND",
                 message=f"Zero results to phrase {phrase}",
             )
-
-        
+    system = SystemOperations()
+    system.archive_pictures()
+    log_message.log_info("Process finished")
