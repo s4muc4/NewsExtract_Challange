@@ -84,9 +84,11 @@ The main steps:
 7 - Follow steps 4-6 for all news that falls within the required time period
 
 ### 🎁 - BONUS - Using textblob to analyse sentiment of each description (polarity and subjectivity)
-Polarity - Range: [-1.0, 1.0], where -1.0 is very negative and 1.0 is very positive
-Subjectivity - Range: [0.0, 1.0], where 0.0 is very objective and 1.0 is very subjective
-All of these saved in excel file
+- Polarity - Range: [-1.0, 1.0], where -1.0 is very negative and 1.0 is very positive
+
+- Subjectivity - Range: [0.0, 1.0], where 0.0 is very objective and 1.0 is very subjective
+
+- All of these saved in excel file
 
  
 ## Requirements
