@@ -9,8 +9,8 @@ def news_extract():
     log_message  = Log_Message()
     log_message.log_info("Process started")
     max_news_count = 50
+    url = "https://www.latimes.com/" #Can be stored in Assets, but if you will run locally, it will not run =)
 
-    
     for item in workitems.inputs:
         data = item.payload["data"]
         phrase = data["phrase"]
@@ -18,7 +18,7 @@ def news_extract():
         history = data["history"]
         log_message.log_info(f"Processing {phrase}")
         extractor = LatimesExtractor(max_news_count, phrase=phrase, sort_by=sort_by, date=history)
-        extractor.open_specific_browser()
+        extractor.open_specific_browser(url)
         news_count = extractor.search_by_phrase()
         if news_count > 0:
             get_news_status, get_news_message = extractor.get_page_news()

@@ -4,8 +4,8 @@ from RPA.Tables import Tables
 from selenium.webdriver import FirefoxOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.common.action_chains import ActionChains
 
-import requests #only to download picture from a url
 import re
 import os
 from typing import List
@@ -30,28 +30,27 @@ class LatimesExtractor:
         self.log = Log_Message()
         self.path = "output/pictures"
 
-    def open_specific_browser(self):
+    def open_specific_browser(self,url) -> None:
         """This function open los angeles times website"""
-        url = "https://www.latimes.com/"
         self.log.log_info(f"Acessing {url}")
         opts = FirefoxOptions()
-        opts.add_argument("--headless")
+        #opts.add_argument("--headless")
         self.browser.open_browser(url=url, options=opts)
 
-    def close_browser(self):
+    def close_browser(self) -> None:
         """This function close los angeles times website"""
         self.log.log_info("Closing browser")
         self.browser.close_all_browsers()
 
-    def search_by_phrase(self):
+    def search_by_phrase(self) -> int:
         """This function search news by a phrase in workitem and get count of results"""
-        self.log.log_info("#######################################################################################################################")
-        self.log.log_info(f"Searching phrase ({self.phrase}) in order by ({self.sort_by}) since ({self.date}) months")
-        self.log.log_info("#######################################################################################################################")
-        self.browser.click_button("//button[@data-element='search-button']")
-        self.browser.input_text("//input[@data-element='search-form-input']", self.phrase)
-        self.browser.press_keys(None, "RETURN")
         try:
+            self.log.log_info("#######################################################################################################################")
+            self.log.log_info(f"Searching phrase ({self.phrase}) in order by ({self.sort_by}) since ({self.date}) months")
+            self.log.log_info("#######################################################################################################################")
+            self.browser.click_button("//button[@data-element='search-button']")
+            self.browser.input_text("//input[@data-element='search-form-input']", self.phrase)
+            self.browser.press_keys(None, "RETURN")
             self.log.log_info("Getting count of results")
             self.browser.wait_until_element_is_enabled("//span[@class='search-results-module-count-desktop']","15")
             result = self.browser.get_text("//span[@class='search-results-module-count-desktop']")
@@ -72,7 +71,7 @@ class LatimesExtractor:
         except Exception:
             return 0
     
-    def get_page_news(self):
+    def get_page_news(self) -> tuple[bool, str]:
         """
         Get some informations like title, description and date of each news on screen.
         If all the information was taken, some business rules are validated, like if date is on range of months.
@@ -85,6 +84,8 @@ class LatimesExtractor:
             without_data = False
             while (finished == False or count_news_found < self.count_news) and without_data==False:
                 self.log.log_info("Get all news from result page")
+                
+                
                 news:List[WebElement] = self.browser.get_webelements("//ul[@class='search-results-module-results-menu']/li/ps-promo") 
                 for new in news:
                     if count_news_found < self.count_news: 
@@ -94,6 +95,7 @@ class LatimesExtractor:
                             date = new.find_element(By.CLASS_NAME, "promo-timestamp").text
                             description = new.find_element(By.CLASS_NAME, "promo-description").text
                             picture_link = new.find_element(By.CLASS_NAME, "image").get_attribute("srcset")
+                            picture_src = new.find_element(By.CLASS_NAME, "image")
                             picture_file_name = self.get_image_file_name(picture_link)
                             if "not found" in picture_file_name:
                                 picture_path = "Erro to download - File Without Extension"
@@ -136,7 +138,7 @@ class LatimesExtractor:
             return False, str(err)
         return True, "OK"
 
-    def get_image_file_name(self, srcset):
+    def get_image_file_name(self, srcset) -> str:
         """
         Get picture file name from news
         """
@@ -157,28 +159,28 @@ class LatimesExtractor:
             self.log.log_info("Picture filename: " + filename)
         return filename
         
-    def download_news_picture(self, src, picture_name):
+    def download_news_picture(self, src, picture_name)-> str:
         """
         Download news picture and save in output folder (output/pictures)
+        It's necessary open an auxiliary window to take a screenshot of the image in big size.
         """
         directory_path = self.path
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
-        path = f"{directory_path}/{picture_name}"
         links = src.split(",")
         link = links[len(links)-1][:-5]
         self.log.log_info(f"Link of picture: {link}" )
-        response = requests.get(link)
-        if response.status_code == 200:
-            with open(path, 'wb') as file:
-                file.write(response.content)
-            self.log.log_info(f"Image downloaded and saved as '{path}'.")
-        else:
-            self.log.log_info("Failed to retrieve the image. Status code:", response.status_code)
-
+        self.browser.execute_javascript("window.open('');")
+        window_handles = self.browser.get_window_handles()
+        self.browser.switch_window(window_handles[1])
+        self.browser.go_to(link)
+        path = f'{self.path}/{picture_name}'
+        self.browser.screenshot("//img", path)
+        self.browser.close_window()
+        self.browser.switch_window(window_handles[0])
         return path
 
-    def verify_date(self, date_extracted):
+    def verify_date(self, date_extracted) -> bool:
         """
         Verify if news date are on the range of months suggested by workitem
         Return: boolean
@@ -205,15 +207,15 @@ class LatimesExtractor:
                     return True
             return False
 
-    def count_phrases(self, title, description):
+    def count_phrases(self, title, description) -> tuple[str, str]:
         """
         Count how many word matches appears in title, and description
         """
         count_in_title = title.lower().count(self.phrase.lower())
         count_in_description = description.lower().count(self.phrase.lower())
-        return count_in_title, count_in_description
+        return str(count_in_title), str(count_in_description)
 
-    def extract_money_amounts(self, title, description):
+    def extract_money_amounts(self, title, description) -> bool:
         """
         Do a regex in title and description to get money amount. If some amont money appears, the function returns True
         Return: boolean
@@ -231,5 +233,3 @@ class LatimesExtractor:
         if len(money_amounts)>=1:
             return True
         return False
-    
-    
