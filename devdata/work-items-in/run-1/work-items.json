@@ -2,7 +2,7 @@
     {
         "payload": {
             "data": {
-                "phrase": "Artificial Inteligence",
+                "phrase": "Bank",
                 "sort_by": "Newest",
                 "history": "0"
             }
@@ -11,7 +11,7 @@
     {
         "payload": {
             "data": {
-                "phrase": "Car",
+                "phrase": "Dolar",
                 "sort_by": "Newest",
                 "history": "1"
             }
@@ -22,7 +22,7 @@
             "data": {
                 "phrase": "Olympics",
                 "sort_by": "Newest",
-                "history": "3"
+                "history": "2"
             }
         }
     }

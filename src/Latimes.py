@@ -85,14 +85,11 @@ class LatimesExtractor:
             without_data = False
             while (finished == False or count_news_found < self.count_news) and without_data==False:
                 self.log.log_info("Get all news from result page")
-                
-                
+                self.sheet.create_worksheet(self.phrase)
                 news:List[WebElement] = self.browser.get_webelements("//ul[@class='search-results-module-results-menu']/li/ps-promo") 
                 for new in news:
                     if count_news_found < self.count_news: 
                         try:
-                            self.sheet.create_worksheet(self.phrase)
-                            self.sheet.delete_worksheet_if_exists("Sheet1")
                             title = new.find_element(By.CLASS_NAME, "promo-title").text
                             topic = new.find_element(By.XPATH, "//p[@class='promo-category']/a").text
                             date = new.find_element(By.CLASS_NAME, "promo-timestamp").text
@@ -139,8 +136,12 @@ class LatimesExtractor:
                         self.browser.click_element_when_clickable("//div[@class='search-results-module-next-page']",10)
                     except TimeoutError:
                         finished = True
+            
         except Exception as err:
+            
             return False, str(err)
+        finally:
+            self.sheet.delete_worksheet_if_exists("Sheet1")
         return True, "OK"
 
     def get_image_file_name(self, srcset) -> str:

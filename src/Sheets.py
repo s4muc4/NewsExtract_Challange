@@ -40,14 +40,14 @@ class Sheets_Manipulation():
 
     def delete_worksheet_if_exists(self, sheet):
         try:
-            if len(self.file.list_worksheets())==1:
-                self.create_worksheet("Sheet1")
-            if self.file.worksheet_exists(sheet):
-                self.file.remove_worksheet(sheet)
-        except Exception as err:
+            self.file.save_workbook(path=self.path)
+        except Exception as err:   
+            pass
+        finally:
             self.file.open_workbook(self.path)
             if len(self.file.list_worksheets())==1:
                 self.create_worksheet("Sheet1")
             if self.file.worksheet_exists(sheet):
                 self.file.remove_worksheet(sheet)
             self.file.save_workbook(path=self.path)
+            
