@@ -107,10 +107,9 @@ class LatimesExtractor:
                                 picture_path = self.download_news_picture(picture_link, picture_file_name)
                             href = new.find_element(By.TAG_NAME, "a").get_attribute("href")
                             if not self.verify_date(date) == True:
-                                self.log.log_info("There are no more messages in the established retroactive months")
-                                without_data = True
-                                finished = True
-                                break
+                                msg = "There are no more messages in the established retroactive months"
+                                self.log.log_info(msg)
+                                return False, str(msg)
                             count_news_found += 1
                             self.log.log_info("-----------------------------------------------------------------------------------------------------------------------")
                             self.log.log_info("New number: " + str(count_news_found))

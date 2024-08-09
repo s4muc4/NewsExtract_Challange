@@ -25,11 +25,18 @@ def news_extract():
             if(get_news_status==True):
                 item.done()
             else:
-                item.fail(
-                    exception_type="APPLICATION",
-                    code="GET_NEWS_FAILED",
-                    message=get_news_message,
-                )
+                if "retroactive months" in get_news_message:
+                    item.fail(
+                        exception_type="BUSINESS",
+                        code="NEWS_NOT_FOUND",
+                        message=get_news_message,
+                    )
+                else:
+                    item.fail(
+                        exception_type="APPLICATION",
+                        code="GET_NEWS_FAILED",
+                        message=get_news_message,
+                    )
             extractor.close_browser()   
         else:
             extractor.close_browser()
