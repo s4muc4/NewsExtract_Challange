@@ -106,7 +106,7 @@ class LatimesExtractor:
                             else:
                                 picture_path = self.download_news_picture(picture_link, picture_file_name)
                             href = new.find_element(By.TAG_NAME, "a").get_attribute("href")
-                            if not self.verify_date(date) == True:
+                            if not self.verify_date(date) == True and count_news_found ==0:
                                 msg = "There are no more messages in the established retroactive months"
                                 self.log.log_info(msg)
                                 return False, str(msg)
