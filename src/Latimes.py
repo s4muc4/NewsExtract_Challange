@@ -91,6 +91,7 @@ class LatimesExtractor:
                 for new in news:
                     if count_news_found < self.count_news: 
                         try:
+                            self.sheet.create_worksheet(self.phrase)
                             title = new.find_element(By.CLASS_NAME, "promo-title").text
                             topic = new.find_element(By.XPATH, "//p[@class='promo-category']/a").text
                             date = new.find_element(By.CLASS_NAME, "promo-timestamp").text
@@ -106,7 +107,7 @@ class LatimesExtractor:
                             else:
                                 picture_path = self.download_news_picture(picture_link, picture_file_name)
                             href = new.find_element(By.TAG_NAME, "a").get_attribute("href")
-                            if not self.verify_date(date) == True and count_news_found ==0:
+                            if not self.verify_date(date) == True and count_news_found == 0:
                                 msg = "There are no more messages in the established retroactive months"
                                 self.log.log_info(msg)
                                 return False, str(msg)
@@ -125,7 +126,6 @@ class LatimesExtractor:
                             self.log.log_info("Extracting money")
                             money_appears = self.extract_money_amounts(title, description)
                             self.log.log_info("Creating worksheet if doesn't exists")
-                            self.sheet.create_worksheet(self.phrase)
                             self.log.log_info("Adding row into a excel file")
                             self.sheet.add_row_in_worksheet(self.phrase, [title, topic, date, description, picture_path, count_phrases_title, count_phrases_description, str(money_appears), href, polarity, subjectivity])
                         except Exception as err:
