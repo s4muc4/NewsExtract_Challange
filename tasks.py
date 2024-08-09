@@ -9,6 +9,7 @@ def news_extract():
     log_message  = Log_Message()
     log_message.log_info("Process started")
     max_news_count = 50
+
     
     for item in workitems.inputs:
         data = item.payload["data"]

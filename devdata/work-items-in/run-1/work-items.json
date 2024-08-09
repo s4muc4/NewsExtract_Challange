@@ -1,0 +1,29 @@
+[
+    {
+        "payload": {
+            "data": {
+                "phrase": "Artificial Inteligence",
+                "sort_by": "Newest",
+                "history": "0"
+            }
+        }
+    },
+    {
+        "payload": {
+            "data": {
+                "phrase": "Car",
+                "sort_by": "Newest",
+                "history": "1"
+            }
+        }
+    },
+    {
+        "payload": {
+            "data": {
+                "phrase": "Olympics",
+                "sort_by": "Newest",
+                "history": "3"
+            }
+        }
+    }
+]
