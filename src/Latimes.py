@@ -1,4 +1,5 @@
 from RPA.Browser.Selenium import Selenium
+from selenium.webdriver import FirefoxOptions
 from RPA.Tables import Tables
 
 from selenium.webdriver.common.by import By
@@ -36,7 +37,9 @@ class LatimesExtractor:
         """This function open los angeles times website"""
         url = "https://www.latimes.com/"
         self.log.log_info(f"Acessing {url}")
-        self.browser.open_browser(url=url, browser="chrome")
+        opts = FirefoxOptions()
+        opts.add_argument("--headless")
+        self.browser.open_browser(url=url, options=opts)
 
     def close_browser(self):
         """This function close los angeles times website"""
