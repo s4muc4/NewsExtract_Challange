@@ -136,9 +136,7 @@ class LatimesExtractor:
                         self.browser.click_element_when_clickable("//div[@class='search-results-module-next-page']",10)
                     except TimeoutError:
                         finished = True
-            
         except Exception as err:
-            
             return False, str(err)
         finally:
             self.sheet.delete_worksheet_if_exists("Sheet1")
