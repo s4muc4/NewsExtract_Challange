@@ -18,5 +18,21 @@ def news_extract():
         extractor.open_specific_browser()
         news_count = extractor.search_by_phrase()
         if news_count > 0:
-            extractor.get_page_news()
-        extractor.close_browser()
+            get_news_status, get_news_message = extractor.get_page_news()
+            if(get_news_status==True):
+                item.done()
+            else:
+                item.fail(
+                    exception_type="APPLICATION",
+                    code="GET_NEWS_FAILED",
+                    message=get_news_message,
+                )
+            extractor.close_browser()   
+        else:
+            extractor.close_browser()
+            item.fail(
+                exception_type="BUSINESS",
+                code="NEWS_NOT_FOUND",
+                message=f"Zero results to phrase {phrase}",
+            )
+        

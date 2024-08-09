@@ -16,6 +16,7 @@ from dateutil.relativedelta import relativedelta
 
 from src.Logging import Log_Message
 
+
 class LatimesExtractor:
     def __init__(self,count_news: int, phrase, sort_by, date) -> None:
         """Initializing class of website"""
@@ -29,6 +30,7 @@ class LatimesExtractor:
         self.sheet.create_file()
         self.sheet.delete_worksheet_if_exists(self.phrase)
         self.log = Log_Message()
+        self.path = "output/pictures"
 
     def open_specific_browser(self):
         """This function open los angeles times website"""
@@ -39,7 +41,7 @@ class LatimesExtractor:
     def close_browser(self):
         """This function close los angeles times website"""
         self.log.log_info("Closing browser")
-        self.browser.close_browser()
+        self.browser.close_all_browsers()
 
     def search_by_phrase(self):
         """This function search news by a phrase in workitem and get count of results"""
@@ -65,7 +67,10 @@ class LatimesExtractor:
             self.browser.wait_until_element_is_enabled("//div[@class='search-results-module-no-results']","30")
             news_count = self.browser.get_text("//div[@class='search-results-module-no-results']")
             self.log.log_warn(news_count)
-        return int(news_count)
+        try:
+            return int(news_count)
+        except Exception:
+            return 0
     
     def get_page_news(self):
         """
@@ -74,58 +79,62 @@ class LatimesExtractor:
         Get word counts in title and description, and get if money appears in title or description
         Finally, call Sheet functions to save informations in a Excel file.
         """
-        count_news_found = 0
-        finished = False
-        without_data = False
-        while (finished == False or count_news_found < self.count_news) and without_data==False:
-            self.log.log_info("Get all news from result page")
-            news:List[WebElement] = self.browser.get_webelements("//ul[@class='search-results-module-results-menu']/li/ps-promo") 
-            for new in news:
-                if count_news_found < self.count_news: 
+        try:
+            count_news_found = 0
+            finished = False
+            without_data = False
+            while (finished == False or count_news_found < self.count_news) and without_data==False:
+                self.log.log_info("Get all news from result page")
+                news:List[WebElement] = self.browser.get_webelements("//ul[@class='search-results-module-results-menu']/li/ps-promo") 
+                for new in news:
+                    if count_news_found < self.count_news: 
+                        try:
+                            title = new.find_element(By.CLASS_NAME, "promo-title").text
+                            topic = new.find_element(By.XPATH, "//p[@class='promo-category']/a").text
+                            date = new.find_element(By.CLASS_NAME, "promo-timestamp").text
+                            description = new.find_element(By.CLASS_NAME, "promo-description").text
+                            picture_link = new.find_element(By.CLASS_NAME, "image").get_attribute("srcset")
+                            picture_file_name = self.get_image_file_name(picture_link)
+                            if "not found" in picture_file_name:
+                                picture_path = "Erro to download - File Without Extension"
+                            else:
+                                picture_path = self.download_news_picture(picture_link, picture_file_name)
+                            href = new.find_element(By.TAG_NAME, "a").get_attribute("href")
+                            if not self.verify_date(date) == True:
+                                self.log.log_info("There are no more messages in the established retroactive months")
+                                without_data = True
+                                finished = True
+                                break
+                            count_news_found += 1
+                            self.log.log_info("-----------------------------------------------------------------------------------------------------------------------")
+                            self.log.log_info("New number: " + str(count_news_found))
+                            self.log.log_info("Title: "+title)
+                            self.log.log_info("Topic: "+topic)
+                            self.log.log_info("Post Date: "+date)
+                            self.log.log_info("Description: "+description)
+                            self.log.log_info("Picture file name: "+picture_file_name)
+                            self.log.log_info("URL of new: "+href)
+                            self.log.log_info("-----------------------------------------------------------------------------------------------------------------------")
+                            self.log.log_info("Extracting phrases count")
+                            count_phrases_title, count_phrases_description = self.count_phrases(title, description) 
+                            self.log.log_info("Extracting money")
+                            money_appears = self.extract_money_amounts(title, description)
+                            self.log.log_info("Creating worksheet if doesn't exists")
+                            self.sheet.create_worksheet(self.phrase)
+                            self.log.log_info("Adding row into a excel file")
+                            self.sheet.add_row_in_worksheet(self.phrase, [title, topic, date, description, picture_path, count_phrases_title, count_phrases_description, str(money_appears), href])
+                        except Exception as err:
+                            self.log.log_info("Error to get new from " + self.phrase)
+                    else:
+                        finished = True
+                if finished == False:
                     try:
-                        title = new.find_element(By.CLASS_NAME, "promo-title").text
-                        topic = new.find_element(By.XPATH, "//p[@class='promo-category']/a").text
-                        date = new.find_element(By.CLASS_NAME, "promo-timestamp").text
-                        description = new.find_element(By.CLASS_NAME, "promo-description").text
-                        picture_link = new.find_element(By.CLASS_NAME, "image").get_attribute("srcset")
-                        picture_file_name = self.get_image_file_name(picture_link)
-                        if "not found" in picture_file_name:
-                            picture_path = "Erro to download - File Without Extension"
-                        else:
-                            picture_path = self.download_news_picture(picture_link, picture_file_name)
-                        href = new.find_element(By.TAG_NAME, "a").get_attribute("href")
-                        if not self.verify_date(date) == True:
-                            self.log.log_info("There are no more messages in the established retroactive months")
-                            without_data = True
-                            finished = True
-                            break
-                        count_news_found += 1
-                        self.log.log_info("-----------------------------------------------------------------------------------------------------------------------")
-                        self.log.log_info("New number: " + str(count_news_found))
-                        self.log.log_info("Title: "+title)
-                        self.log.log_info("Topic: "+topic)
-                        self.log.log_info("Post Date: "+date)
-                        self.log.log_info("Description: "+description)
-                        self.log.log_info("Picture file name: "+picture_file_name)
-                        self.log.log_info("URL of new: "+href)
-                        self.log.log_info("-----------------------------------------------------------------------------------------------------------------------")
-                        self.log.log_info("Extracting phrases count")
-                        count_phrases_title, count_phrases_description = self.count_phrases(title, description) 
-                        self.log.log_info("Extracting money")
-                        money_appears = self.extract_money_amounts(title, description)
-                        self.log.log_info("Creating worksheet if doesn't exists")
-                        self.sheet.create_worksheet(self.phrase)
-                        self.log.log_info("Adding row into a excel file")
-                        self.sheet.add_row_in_worksheet(self.phrase, [title, topic, date, description, picture_path, count_phrases_title, count_phrases_description, str(money_appears), href])
-                    except Exception as err:
-                        self.log.log_info("Error to get new from " + self.phrase)
-                else:
-                    finished = True
-            if finished == False:
-                try:
-                    self.browser.click_element_when_clickable("//div[@class='search-results-module-next-page']",10)
-                except TimeoutError:
-                    finished = True
+                        self.browser.click_element_when_clickable("//div[@class='search-results-module-next-page']",10)
+                    except TimeoutError:
+                        finished = True
+        except Exception as err:
+            return False, str(err)
+        return True, "OK"
 
     def get_image_file_name(self, srcset):
         """
@@ -152,7 +161,7 @@ class LatimesExtractor:
         """
         Download news picture and save in output folder (output/pictures)
         """
-        directory_path = "output/pictures"
+        directory_path = self.path
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
         path = f"{directory_path}/{picture_name}"
