@@ -14,6 +14,7 @@ from src.Sheets import Sheets_Manipulation
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from src.Logging import Log_Message
+from textblob import TextBlob
 
 class LatimesExtractor:
     def __init__(self,count_news: int, phrase, sort_by, date) -> None:
@@ -34,7 +35,7 @@ class LatimesExtractor:
         """This function open los angeles times website"""
         self.log.log_info(f"Acessing {url}")
         opts = FirefoxOptions()
-        #opts.add_argument("--headless")
+        opts.add_argument("--headless")
         self.browser.open_browser(url=url, options=opts)
 
     def close_browser(self) -> None:
@@ -94,8 +95,11 @@ class LatimesExtractor:
                             topic = new.find_element(By.XPATH, "//p[@class='promo-category']/a").text
                             date = new.find_element(By.CLASS_NAME, "promo-timestamp").text
                             description = new.find_element(By.CLASS_NAME, "promo-description").text
+                            sentiment = TextBlob(description)
+                            polarity = sentiment.polarity
+                            subjectivity = sentiment.subjectivity
                             picture_link = new.find_element(By.CLASS_NAME, "image").get_attribute("srcset")
-                            picture_src = new.find_element(By.CLASS_NAME, "image")
+                            #picture_src = new.find_element(By.CLASS_NAME, "image")
                             picture_file_name = self.get_image_file_name(picture_link)
                             if "not found" in picture_file_name:
                                 picture_path = "Erro to download - File Without Extension"
@@ -124,7 +128,7 @@ class LatimesExtractor:
                             self.log.log_info("Creating worksheet if doesn't exists")
                             self.sheet.create_worksheet(self.phrase)
                             self.log.log_info("Adding row into a excel file")
-                            self.sheet.add_row_in_worksheet(self.phrase, [title, topic, date, description, picture_path, count_phrases_title, count_phrases_description, str(money_appears), href])
+                            self.sheet.add_row_in_worksheet(self.phrase, [title, topic, date, description, picture_path, count_phrases_title, count_phrases_description, str(money_appears), href, polarity, subjectivity])
                         except Exception as err:
                             self.log.log_info("Error to get new from " + self.phrase)
                     else:
