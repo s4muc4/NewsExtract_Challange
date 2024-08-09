@@ -10,9 +10,10 @@ def news_extract():
     max_news_count = 50
     
     for item in workitems.inputs:
-        phrase = item.payload["phrase"]
-        sort_by = item.payload["sort_by"]
-        history = item.payload["history"]
+        data = item.payload["data"]
+        phrase = data["phrase"]
+        sort_by = data["sort_by"]
+        history = data["history"]
         log_message.log_info(f"Processing {phrase}")
         extractor = LatimesExtractor(max_news_count, phrase=phrase, sort_by=sort_by, date=history)
         extractor.open_specific_browser()
