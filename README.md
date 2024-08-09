@@ -1,60 +1,86 @@
-# Template: Python - Minimal
 
-This template leverages the new [Python framework](https://github.com/robocorp/robocorp), the [libraries](https://github.com/robocorp/robocorp/blob/master/docs/README.md#python-libraries) from to same project as well.
 
-The template provides you with the basic structure of a Python project: logging out of the box and controlling your tasks without fiddling with the base Python stuff. The environment contains the most used libraries, so you do not have to start thinking about those right away. 
+# 🟢 The Challenge #
 
-👉 Other templates are available as well via our tooling and on our [Portal](https://robocorp.com/portal/tag/template)
+#### I'm using https://www.latimes.com/ to extract news. ####
 
-## Running
 
-#### VS Code
-1. Get [Robocorp Code](https://robocorp.com/docs/developer-tools/visual-studio-code/extension-features) -extension for VS Code.
-1. You'll get an easy-to-use side panel and powerful command-palette commands for running, debugging, code completion, docs, etc.
+## Parameters
 
-#### Command line
 
-1. [Get RCC](https://github.com/robocorp/rcc?tab=readme-ov-file#getting-started)
-1. Use the command: `rcc run`
+- search phrase
 
-## Results
+- news category/section/topic
 
-🚀 After running the bot, check out the `log.html` under the `output` -folder.
+- number of months for which you need to receive news (if applicable)
 
-## Dependencies
+  - Example of how this should work: 0 or 1 - only the current month, 2 - current and previous month, 3 - current and two previous months, and so on
 
-We strongly recommend getting familiar with adding your dependencies in [conda.yaml](conda.yaml) to control your Python dependencies and the whole Python environment for your automation.
+If run locally, use `work-items.json`.
 
-<details>
-  <summary>🙋‍♂️ "Why not just pip install...?"</summary>
+If run via robocorp workitens, follow some suggestions
 
-Think of [conda.yaml](conda.yaml) as an equivalent of the requirements.txt, but much better. 👩‍💻 With `conda.yaml`, you are not just controlling your PyPI dependencies; you control the complete Python environment, which makes things repeatable and easy.
+```
+{
+  "data": {
+    "phrase": "Artificial Inteligence",
+    "sort_by": "Newest",
+    "history": "0"
+  }
+}
+```
+```
+{
+  "data": {
+    "phrase": "Car",
+    "sort_by": "Newest",
+    "history": "1"
+  }
+}
+```
+```
+{
+  "data": {
+    "phrase": "Olympics",
+    "sort_by": "Newest",
+    "history": "2"
+  }
+}
+```
 
-👉 You will probably need to run your code on another machine quite soon, so by using `conda.yaml`:
-- You can avoid `Works on my machine` -cases
-- You do not need to manage Python installations on all the machines
-- You can control exactly which version of Python your automation will run on 
-  - You'll also control the pip version to avoid dep. resolution changes
-- No need for venv, pyenv, ... tooling and knowledge sharing inside your team.
-- Define dependencies in conda.yaml, let our tooling do the heavy lifting.
-- You get all the content of [conda-forge](https://prefix.dev/channels/conda-forge) without any extra tooling
+## The Process
+The main steps:
 
-> Dive deeper with [these](https://github.com/robocorp/rcc/blob/master/docs/recipes.md#what-is-in-condayaml) resources.
+1 - Open the site by following the link
 
-</details>
-<br/>
+2 - Enter a phrase in the search field
 
-> The full power of [rpaframework](https://robocorp.com/docs/python/rpa-framework) -libraries is also available on Python as a backup while we implement the new Python libraries.
+3 - On the result page
 
-## What now?
+- If possible select a news category or section from the
 
-🚀 Now, go get'em
+- Choose the latest (i.e., newest) news
 
-Start writing Python and remember that the AI/LLM's out there are getting really good and creating Python code specifically.
+4 - Get the values: title, date, and description.
 
-👉 Try out [Robocorp ReMark 💬](https://chat.robocorp.com)
+5 - Store in an Excel file:
 
-For more information, do not forget to check out the following:
-- [Robocorp Documentation -site](https://robocorp.com/docs)
-- [Portal for more examples](https://robocorp.com/portal)
-- Follow our main [robocorp -repository](https://github.com/robocorp/robocorp) as it is the main location where we developed the libraries and the framework.
+- title
+
+- date
+
+- description (if available)
+
+- picture filename
+
+- count of search phrases in the title and description
+
+- True or False, depending on whether the title or description contains any amount of money
+
+  - Possible formats: $11.1 | $111,111.11 | 11 dollars | 11 USD
+
+6 - Download the news picture and specify the file name in the Excel file
+
+7 - Follow steps 4-6 for all news that falls within the required time period
+
+ 
