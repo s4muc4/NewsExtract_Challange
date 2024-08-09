@@ -1,10 +1,13 @@
 
 from RPA.Excel.Files import Files
 import os
+from datetime import datetime
 
 class Sheets_Manipulation():
     def __init__(self) -> None:
-        title = "result"
+        """Initializing class of sheets"""
+        current_date = datetime.now().strftime("%d_%m_%Y")
+        title = f"result_{current_date}"
         self.file = Files()
         self.title = title
         self.path = f"output/news_{title}.xlsx"

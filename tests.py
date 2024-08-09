@@ -1,8 +1,7 @@
-from src.Latimes import LatimesExtractor
+from src.Logging import Log_Message
 
-extractor = LatimesExtractor(count_news=15, phrase="Sport", sort_by="sort_by", date="9")
+log_message = Log_Message()
 
-text = "https://ca-times.brightspotcdn.com/dims4/default/4710e22/2147483647/strip/true/crop/2760x1840+97+87/resize/110x73!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F89%2Fde%2Fcbc9916e4072a3c63293a13f0cb2%2Faptopix-us-trials-gymnastics-30479.jpg 110w,https://ca-times.brightspotcdn.com/dims4/default/601eb6b/2147483647/strip/true/crop/2760x1840+97+87/resize/180x120!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F89%2Fde%2Fcbc9916e4072a3c63293a13f0cb2%2Faptopix-us-trials-gymnastics-30479.jpg 180w,https://ca-times.brightspotcdn.com/dims4/default/2a73b52/2147483647/strip/true/crop/2760x1840+97+87/resize/320x213!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F89%2Fde%2Fcbc9916e4072a3c63293a13f0cb2%2Faptopix-us-trials-gymnastics-30479.jpg 320w,https://ca-times.brightspotcdn.com/dims4/default/2899f91/2147483647/strip/true/crop/2760x1840+97+87/resize/568x379!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F89%2Fde%2Fcbc9916e4072a3c63293a13f0cb2%2Faptopix-us-trials-gymnastics-30479.jpg 568w,https://ca-times.brightspotcdn.com/dims4/default/0e76498/2147483647/strip/true/crop/2760x1840+97+87/resize/768x512!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F89%2Fde%2Fcbc9916e4072a3c63293a13f0cb2%2Faptopix-us-trials-gymnastics-30479.jpg 768w,https://ca-times.brightspotcdn.com/dims4/default/fb01cf6/2147483647/strip/true/crop/2760x1840+97+87/resize/840x560!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F89%2Fde%2Fcbc9916e4072a3c63293a13f0cb2%2Faptopix-us-trials-gymnastics-30479.jpg 840w"
-
-
-extractor.download_news_picture(text, "2Faptopix-us-trials-gymnastics-30479.jpg")
+log_message.log_info("teste1")
+log_message.log_warn("teste2")
+log_message.log_error("teste3")
